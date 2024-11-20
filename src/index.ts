@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { Command } from "commander";
+import { Command } from 'commander';
 import * as packageJson from '../package.json';
 import * as svg from './svg/svg'
 
@@ -18,6 +18,16 @@ program
     .option('-o, --output [path]', 'Output Asset Folder', 'assets')
     .action((options) => {
         svg.svg2png(options.input, options.output)
+    });
+
+program
+    .command("watch-svg")
+    .description('watches any changes in SVGs in input folder and converts it to PNG.')
+    .option('-i, --input [path]', 'Input Asset Folder', 'assetSrc')
+    .option('-o, --output [path]', 'Output Asset Folder', 'assets')
+    .option('--ignoreInitial [boolean]', 'Ignore Initial file watching.', "true")
+    .action((options) => {
+        svg.watchSvg(options.input, options.output, options.ignoreInitial)
     });
 
 program.parse();
