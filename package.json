@@ -2,6 +2,9 @@
   "name": "flint",
   "version": "0.1.0",
   "main": "index.js",
+  "bin": {
+    "flint": "./dist/src/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/index.ts",
