@@ -5,6 +5,8 @@ import fs from 'fs';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
 
+sharp.cache(false)
+
 export async function svg2png(inputDir: string, outputDir: string) {
     const svgFiles = await glob(`${inputDir}/**/*.svg`);
     console.log(chalk.green(`Found ${svgFiles.length} SVG file(s) for conversion.`));
