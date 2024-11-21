@@ -74,5 +74,5 @@ flint watch-svg [options]
 #### Example
 
 ```bash
-flint watch-svg -i ./svgFolder -o ./pngFolder --no-ignoreInitial
+flint watch-svg -i ./svgFolder -o ./pngFolder --ignoreInitial false
 ```
