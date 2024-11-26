@@ -12,18 +12,18 @@ program
     .version(packageJson.version);
 
 program
-    .command("svg2png")
+    .command("svg-to-png")
     .description('Converts all SVGs in input folder to PNG.')
-    .option('-i, --input [path]', 'Input Asset Folder', 'assetSrc')
+    .option('-i, --input [path]', 'Input Asset Folder', 'assets_src')
     .option('-o, --output [path]', 'Output Asset Folder', 'assets')
     .action((options) => {
-        svg.svg2png(options.input, options.output)
+        svg.svgToPng(options.input, options.output)
     });
 
 program
     .command("watch-svg")
     .description('watches any changes in SVGs in input folder and converts it to PNG.')
-    .option('-i, --input [path]', 'Input Asset Folder', 'assetSrc')
+    .option('-i, --input [path]', 'Input Asset Folder', 'assets_src')
     .option('-o, --output [path]', 'Output Asset Folder', 'assets')
     .option('--ignoreInitial [boolean]', 'Ignore Initial file watching.', "true")
     .action((options) => {

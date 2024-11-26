@@ -1,4 +1,4 @@
-# Flint CLI
+# Flint
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -16,40 +16,41 @@ Flint CLI is a simple and efficient tool for managing and converting SVG files i
 You can install Flint globally using npm:
 
 ```bash
-npm install -g flint-cli
+npm install -g flint
 ```
 
 Or, use it locally in your project:
 
 ```bash
-npm install flint-cli --save-dev
+npm install flint --save-dev
 ```
 
 ## Usage
 
-Flint provides two main commands: `svg2png` and `watch-svg`.
+Flint provides two main commands: `svg-to-png` and `watch-svg`.
 
-### `svg2png`
+### `svg-to-png`
 
 Convert all SVG files in the input folder to PNG format.
 
 #### Syntax
 
 ```bash
-flint svg2png [options]
+flint svg-to-png [options]
 ```
 
 #### Options
 
 | Option                | Default     | Description                                |
 |-----------------------|-------------|--------------------------------------------|
-| `-i, --input [path]`  | `assetSrc`  | Path to the folder containing SVG files.   |
+| `-i, --input [path]`  | `assets_src`  | Path to the folder containing SVG files.   |
 | `-o, --output [path]` | `assets`    | Path to save the converted PNG files.      |
 
 #### Example
 
 ```bash
-flint svg2png -i ./svgFolder -o ./pngFolder
+flint svg-to-png
+flint svg-to-png --input svgFolder --output pngFolder
 ```
 
 ### `watch-svg`
@@ -66,7 +67,7 @@ flint watch-svg [options]
 
 | Option                   | Default      | Description                   |
 |--------------------------|-------------|--------------------------------|
-| `-i, --input [path]`      | `assetSrc`  | Path to the folder containing SVG files.|
+| `-i, --input [path]`      | `assets_src`  | Path to the folder containing SVG files.|
 | `-o, --output [path]`     | `assets`    | Path to save the converted PNG files.|
 | `--ignoreInitial [bool]`  | `true`      | Ignore initial file detection when starting the watcher.|
 
@@ -74,5 +75,6 @@ flint watch-svg [options]
 #### Example
 
 ```bash
-flint watch-svg -i ./svgFolder -o ./pngFolder --no-ignoreInitial
+flint watch-svg
+flint watch-svg --input svgFolder --output pngFolder --ignoreInitial false
 ```
