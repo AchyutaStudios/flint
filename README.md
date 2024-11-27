@@ -16,13 +16,13 @@ Flint CLI is a simple and efficient tool for managing and converting SVG files i
 You can install Flint globally using npm:
 
 ```bash
-npm install -g flint
+npm i -g @achyuta-studios/flint
 ```
 
 Or, use it locally in your project:
 
 ```bash
-npm install flint --save-dev
+npm i @achyuta-studios/flint --save-dev
 ```
 
 ## Usage

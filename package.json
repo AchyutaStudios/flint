@@ -1,5 +1,5 @@
 {
-  "name": "flint",
+  "name": "@achyuta-studios/flint",
   "version": "0.1.0",
   "main": "./dist/src/index.js",
   "bin": {
