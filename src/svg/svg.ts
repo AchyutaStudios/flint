@@ -11,17 +11,10 @@ export async function svgToPng(inputDir: string, outputDir: string) {
     const svgFiles = await glob(`${inputDir}/**/*.svg`);
     console.log(chalk.blueBright(`Found ${svgFiles.length} SVG file(s) for conversion.`));
 
-    // svgFiles.map(async (item) => {
-    //     await convertSvgToPng(item, inputDir, outputDir);
-    // });
-
     await Promise.all(svgFiles.map(async (item) => {
         await convertSvgToPng(item, inputDir, outputDir);
     }));
 
-    // process.stdout.clearLine(0);
-    // process.stdout.cursorTo(0);
-    // process.stdout.write(`Converted ${svgFiles.length} SVG file(s).\n`);
     console.log(chalk.blueBright('Completed SVG Conversion.'));
 }
 
