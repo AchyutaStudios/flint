@@ -7,7 +7,7 @@ import chokidar from 'chokidar';
 
 sharp.cache(false)
 
-export async function svgToPng(inputDir: string, outputDir: string, scale: GLfloat = 1) {
+export async function svgToPng(inputDir: string, outputDir: string, scale: number = 1) {
     const svgFiles = await glob(`${inputDir}/**/*.svg`);
     console.log(chalk.blueBright(`Found ${svgFiles.length} SVG file(s) for conversion.`));
 
@@ -18,7 +18,7 @@ export async function svgToPng(inputDir: string, outputDir: string, scale: GLflo
     console.log(chalk.blueBright('Completed SVG Conversion.'));
 }
 
-export function watchSvg(inputDir:string, outputDir: string, scale: GLfloat ,ignoreInitial: string) {
+export function watchSvg(inputDir:string, outputDir: string, scale: number ,ignoreInitial: string) {
     var ignore = false
     if (ignoreInitial === "true") {
         ignore = true
@@ -59,7 +59,7 @@ export function watchSvg(inputDir:string, outputDir: string, scale: GLfloat ,ign
 
 async function convertSvgToPng(
     svgPath: string, inputDir: string, outputDir: string, 
-    scale: GLfloat = 1 ,watcher: boolean = false): Promise<void> {
+    scale: number = 1 ,watcher: boolean = false): Promise<void> {
 
     const outputPath = `${outputDir}\\${path.relative(inputDir, svgPath)}`.replace('.svg', '.png');
     const doubleSlashPath = outputPath.replace(/\\/g, '\\\\');
@@ -97,18 +97,5 @@ async function convertSvgToPng(
                     console.error(chalk.red("Error reading SVG metadata:"), err);
                     reject(err);
                 });
-
-
-        sharp(svgPath)
-            .png()
-            .toFile(outputPath, (err, info) => {
-                if (err) {
-                    console.error(chalk.red(`Error converting file ${svgPath} to PNG:`), err);
-                    reject(err);
-                } else {
-                    console.log(`${chalk.green.bold("SVG Converted".padStart(15))} ${outputPath}`);
-                    resolve();
-                }
-            });
     });
 }
