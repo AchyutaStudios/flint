@@ -45,6 +45,7 @@ flint svg-to-png [options]
 |-----------------------|-------------|--------------------------------------------|
 | `-i, --input [path]`  | `assets_src`  | Path to the folder containing SVG files.   |
 | `-o, --output [path]` | `assets`    | Path to save the converted PNG files.      |
+| `-s, --scale [factor]`| `1`         | Scaling factor for the output PNG         |
 
 #### Example
 
@@ -69,6 +70,7 @@ flint watch-svg [options]
 |--------------------------|-------------|--------------------------------|
 | `-i, --input [path]`      | `assets_src`  | Path to the folder containing SVG files.|
 | `-o, --output [path]`     | `assets`    | Path to save the converted PNG files.|
+| `-s, --scale [factor]`| `1`         | Scaling factor for the output PNG         |
 | `--ignoreInitial [bool]`  | `true`      | Ignore initial file detection when starting the watcher.|
 
 
