@@ -16,7 +16,7 @@ program
     .description('Converts all SVGs in input folder to PNG.')
     .option('-i, --input [path]', 'Input Asset Folder', 'assets_src')
     .option('-o, --output [path]', 'Output Asset Folder', 'assets')
-    .option('-s, --scale [factor]', 'Scaling Factor for output PNG', '1')
+    .option('-s, --scale [factor]', 'Scaling factor for the output PNG', '1')
     .action((options) => {
         svg.svgToPng(options.input, options.output, parseFloat(options.scale))
     });
@@ -26,8 +26,8 @@ program
     .description('watches any changes in SVGs in input folder and converts it to PNG.')
     .option('-i, --input [path]', 'Input Asset Folder', 'assets_src')
     .option('-o, --output [path]', 'Output Asset Folder', 'assets')
-    .option('-s, --scale [factor]', 'Scaling Factor for output PNG', '1')
-    .option('--ignoreInitial [boolean]', 'Ignore Initial file watching.', "true")
+    .option('-s, --scale [factor]', 'Scaling factor for the output PNG', '1')
+    .option('--ignoreInitial [boolean]', 'Ignore initial file watching', 'true')
     .action((options) => {
         svg.watchSvg(options.input, options.output, parseFloat(options.scale) ,options.ignoreInitial)
     });
