@@ -7,18 +7,18 @@ import chokidar from 'chokidar';
 
 sharp.cache(false)
 
-export async function svgToPng(inputDir: string, outputDir: string) {
+export async function svgToPng(inputDir: string, outputDir: string, scale: GLfloat = 1) {
     const svgFiles = await glob(`${inputDir}/**/*.svg`);
     console.log(chalk.blueBright(`Found ${svgFiles.length} SVG file(s) for conversion.`));
 
     await Promise.all(svgFiles.map(async (item) => {
-        await convertSvgToPng(item, inputDir, outputDir);
+        await convertSvgToPng(item, inputDir, outputDir, scale);
     }));
 
     console.log(chalk.blueBright('Completed SVG Conversion.'));
 }
 
-export function watchSvg(inputDir:string, outputDir: string, ignoreInitial: string) {
+export function watchSvg(inputDir:string, outputDir: string, scale: GLfloat ,ignoreInitial: string) {
     var ignore = false
     if (ignoreInitial === "true") {
         ignore = true
@@ -32,12 +32,12 @@ export function watchSvg(inputDir:string, outputDir: string, ignoreInitial: stri
     watcher
         .on('add', async (svgPath) => {
             if (svgPath.endsWith('.svg')) {
-                await convertSvgToPng(svgPath, inputDir, outputDir, true);
+                await convertSvgToPng(svgPath, inputDir, outputDir, scale, true);
             }
         })
         .on('change', (svgPath) => {
             if (svgPath.endsWith('.svg')) {
-                convertSvgToPng(svgPath, inputDir, outputDir, true);
+                convertSvgToPng(svgPath, inputDir, outputDir, scale, true);
             }
         })
         .on('unlink', (svgPath) => {
@@ -57,7 +57,10 @@ export function watchSvg(inputDir:string, outputDir: string, ignoreInitial: stri
     console.log(chalk.blueBright('Watching for changes to SVG files...'));
 }
 
-async function convertSvgToPng(svgPath: string, inputDir: string, outputDir: string, watcher: boolean = false): Promise<void> {
+async function convertSvgToPng(
+    svgPath: string, inputDir: string, outputDir: string, 
+    scale: GLfloat = 1 ,watcher: boolean = false): Promise<void> {
+
     const outputPath = `${outputDir}\\${path.relative(inputDir, svgPath)}`.replace('.svg', '.png');
     const doubleSlashPath = outputPath.replace(/\\/g, '\\\\');
 
@@ -67,14 +70,42 @@ async function convertSvgToPng(svgPath: string, inputDir: string, outputDir: str
 
     return new Promise((resolve, reject) => {
         sharp(svgPath)
+            .metadata()
+            .then((metadata) => {
+                const scaledWidth = metadata.width ? Math.round(metadata.width * scale) : null;
+                const scaledHeight = metadata.height ? Math.round(metadata.height * scale) : null;
+
+                if (scaledWidth === null || scaledHeight === null) {
+                    console.error(chalk.red("Error: SVG metadata width or height is undefined."));
+                    return reject(new Error("SVG metadata width or height is undefined."));
+                }
+
+                return sharp(svgPath)
+                    .resize(scaledWidth, scaledHeight)
+                    .png()
+                    .toFile(outputPath, (err, info) => {
+                        if (err) {
+                            console.error(chalk.red(`Error converting file ${svgPath} to PNG:`), err);
+                            reject(err);
+                        } else {
+                            console.log(`${chalk.green.bold("SVG Converted".padStart(15))} ${outputPath}`);
+                            resolve();
+                        }
+                    });
+                })
+                .catch((err) => {
+                    console.error(chalk.red("Error reading SVG metadata:"), err);
+                    reject(err);
+                });
+
+
+        sharp(svgPath)
             .png()
             .toFile(outputPath, (err, info) => {
                 if (err) {
                     console.error(chalk.red(`Error converting file ${svgPath} to PNG:`), err);
                     reject(err);
                 } else {
-                    // if (watcher) console.log(`${chalk.green.bold("SVG Converted").padStart(15)} ${outputPath}`);
-                    // else process.stdout.write(`Successfully converted ${svgPath} to png\r`);
                     console.log(`${chalk.green.bold("SVG Converted".padStart(15))} ${outputPath}`);
                     resolve();
                 }
